@@ -18,5 +18,5 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH;
-python helpercheck.py;
+python test.py;
 exit 0

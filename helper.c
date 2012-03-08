@@ -23,12 +23,12 @@ void helper_init()
 	if(((int)(dpy=XOpenDisplay(NULL)))==NULL)
 		printf("Error in opening display\n");
 	printf("Inside C\n");
-	XTestGrabControl(dpy,True);
+	//XTestGrabControl(dpy,True);
 //	XTestFakeButtonEvent(dpy,1,True,CurrentTime);
-	XTestFakeMotionEvent(dpy,-1,0,0,CurrentTime);
+	//XTestFakeMotionEvent(dpy,-1,0,0,CurrentTime);
 //	XTestFakeButtonEvent(dpy,1,False,CurrentTime);
-	XSync(dpy,False);
-	XTestGrabControl(dpy,False);
+	//XSync(dpy,False);
+	//XTestGrabControl(dpy,False);
 	return;
 }
 void helper_mov_absxy(int x,int y)
