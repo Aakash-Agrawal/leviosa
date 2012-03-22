@@ -25,7 +25,7 @@ def GetRedThresholded(img):
 	cv.CvtColor(img, imgHSV, cv.CV_BGR2HSV)
 	imgThreshed = cv.CreateImage(cv.GetSize(img), 8, 1)
 	# Ranges specified for RED colour filtering, keeping in mind the deviations.
-	cv.InRangeS(imgHSV, cv.Scalar(120, 100, 100), cv.Scalar(140,180,255 ), imgThreshed)
+	cv.InRangeS(imgHSV, cv.Scalar(120, 100, 130), cv.Scalar(140,180,200 ), imgThreshed)
 	return imgThreshed
 
 def GetYellowThresholded(img):
@@ -34,7 +34,7 @@ def GetYellowThresholded(img):
 	cv.CvtColor(img, imgHSV, cv.CV_BGR2HSV)
 	imgThreshed = cv.CreateImage(cv.GetSize(img), 8, 1)
 	# Ranges specified for YELLOW colour filtering, keeping in mind the deviations.
-	cv.InRangeS(imgHSV, cv.Scalar(150, 100, 100), cv.Scalar(170, 180, 255), imgThreshed)
+	cv.InRangeS(imgHSV, cv.Scalar(35, 100, 120), cv.Scalar(55, 180, 255), imgThreshed)
 	return imgThreshed
 
 def main():
@@ -71,6 +71,10 @@ def main():
 	libc=ctypes.CDLL("libc.so.6")
 	c.helper_init()
 
+	Xred=-1
+	Yred=-1
+	Xyellow=-1
+	Yyellow=-1
 	# An infinite loop
 	while(True):
 		#----------------------------------------------------------------------------------------
@@ -88,10 +92,8 @@ def main():
 			imgScribble = cv.CreateImage(cv.GetSize(frame), 8, 3)
 
 		# representative co-ordinates of RED & YELLOW finger-tips, initialized.
-		Xred=685
-		Yred=385
-		Xyellow=685
-		Yyellow=385
+		dx=0
+		dy=0
 
 		#----------------------------------------------------------------------------------------
 
@@ -138,38 +140,42 @@ def main():
 		Xyellow = moment10/area
 		Yyellow = moment01/area
 		
-		x=1366-(Xyellow+Xred)*1.5
-		y=(Yyellow+Yred)
+		#dx = (Xyellow - prevXyellow) 
+		#dy = (Yyellow - prevYyellow)
+		x=1390-Xyellow*2.125
+		y=Yyellow*1.575
 		
-		libc.usleep(300)
+		libc.usleep(50)
 		c.helper_mov_absxy(int(x),int(y))
+		#c.helper_mov_relxy(int(dx),int(dy))
 		# Print it out for debugging purposes
-		#print "position "+ str(Xyellow)+' '+ str(Yyellow)+'\n'
-
+		#print "position "+ str(Xyellow)+' '+ str(Yyellow)
+		
 		#----------------------------------------------------------------------------------------
 
 		# find distance between RED & YELLOW finger-tips
 		# for faster calculation, individually Xdiff, Ydiff
 		# considered, instead of sqrt((x2-x1)^2 + (y2-y2)^2)
 
-		Xdiff = abs(Xred - Xyellow)
-		Ydiff = abs(Yred - Yyellow)
+		#Xdiff = abs(Xred - Xyellow)
+		#Ydiff = abs(Yred - Yyellow)
 		
 		# determine the 'clicked' state, using approximation to circle method.
-		d=50
+		#d=50
 		#if((21*Xdiff + 50*Ydiff <= 50*d) and (50*Xdiff + 21*Ydiff <= 50*d)):
-		if(Xdiff < 25 and Ydiff < 25):
-			if(not clicked):
-				clicked = 1
-				print "clicked"
+		#if(Xdiff * Xdiff + Ydiff * Ydiff < d*d):
+		#if(Xdiff < 15 and Ydiff < 15):
+		#	if(not clicked):
+		#		clicked = 1
+		#		print "clicked"
 
-		else:
-			if(clicked):
-				clicked = 0
+		#else:
+		#	if(clicked):
+		#		clicked = 0
 				
-		if clicked:
-			c.helper_press()
-			c.helper_release()
+		#if clicked:
+		#	c.helper_press()
+		#	c.helper_release()
 			
 		# convey prevXred,prevYred,Xred,Yred,clicked for generation of appropriate mouse event.	
 				
