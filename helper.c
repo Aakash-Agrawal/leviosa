@@ -35,7 +35,7 @@ void helper_mov_absxy(int x,int y)
 {
 
 	XTestGrabControl(dpy,True);
-	XTestFakeMotionEvent(dpy,-1,x,y,CurrentTime);
+	XTestFakeMotionEvent(dpy,0,x,y,CurrentTime);
 	XSync(dpy,False);
 	XTestGrabControl(dpy,False);
 }
@@ -43,21 +43,21 @@ void helper_mov_relxy(int x,int y)
 {
 
 	XTestGrabControl(dpy,True);
-	XTestFakeMotionEvent(dpy,-1,x,y,CurrentTime);
+	XTestFakeRelativeMotionEvent(dpy,x,y,CurrentTime);
 	XSync(dpy,False);
 	XTestGrabControl(dpy,False);
 }
-void helper_press()
+void helper_press(int which)
 {
 	XTestGrabControl(dpy,True);
-	XTestFakeButtonEvent(dpy,1,True,CurrentTime);
+	XTestFakeButtonEvent(dpy,which,True,CurrentTime);
 	XSync(dpy,False);
 	XTestGrabControl(dpy,False);
 }
-void helper_release()
+void helper_release(int which)
 {
 	XTestGrabControl(dpy,True);
-	XTestFakeButtonEvent(dpy,1,False,CurrentTime);
+	XTestFakeButtonEvent(dpy,which,False,CurrentTime);
 	XSync(dpy,False);
 	XTestGrabControl(dpy,False);
 }
