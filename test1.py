@@ -202,10 +202,10 @@ def main():
 		else:
 			if(clicked):
 				clicked = 0
+				c.helper_release(1)
 				
 		if clicked:
 			c.helper_press(1)
-			c.helper_release(1)
 		
 		d=45	
 		#if((21*Xdiff + 50*Ydiff <= 50*d) and (50*Xdiff + 21*Ydiff <= 50*d)):
@@ -222,8 +222,8 @@ def main():
 		if clicked1:
 			c.helper_press(3)
 			c.helper_release(3)
-			
-		#----------------------------------------------------------------------------------------
+	
+	#----------------------------------------------------------------------------------------
 
 #		# We want to draw a line only if its a valid position
 #		if(lastX>0 and lastY>0 and posX>0 and posY>0):
